@@ -32,13 +32,16 @@ namespace CleanArchitecture.WebUI
 
                     var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
 
-                    await ApplicationDbContextSeed.SeedAsync(context, userManager);
+                    await ApplicationDbContextSeed.SeedDefaultUserAsync(userManager);
+                    await ApplicationDbContextSeed.SeedSampleDataAsync(context);
                 }
                 catch (Exception ex)
                 {
                     var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
 
                     logger.LogError(ex, "An error occurred while migrating or seeding the database.");
+
+                    throw;
                 }
             }
 
